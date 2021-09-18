@@ -1,0 +1,14 @@
+scalar JSON
+scalar JSONObject
+
+type Query {
+    _empty: String
+}
+
+type Mutation {
+    _empty: String
+}
+
+type MessageResponse {
+    status: String!
+}

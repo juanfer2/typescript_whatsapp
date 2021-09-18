@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  username String   @unique
+  name     String?
+  password String?
+  messages Message[]
+  UserRooms UserRoom[]
+  messageUserViews MessageUserView[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Room {
+  id       Int     @id @default(autoincrement())
+  name     String?
+  UserRooms UserRoom[]
+  messages Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model UserRoom {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id])
+  room      Room    @relation(fields: [roomId], references: [id])
+  userId    Int    
+  roomId    Int    
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Message {
+  id        Int         @id @default(autoincrement())
+  userId    Int    
+  roomId    Int    
+  type      TypeMessage @default(TEXT)
+  sender    User        @relation(fields: [userId], references: [id])
+  room      Room        @relation(fields: [roomId], references: [id])
+  messageUserViews MessageUserView[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MessageUserView {
+  id        Int  @id @default(autoincrement())
+  userId    Int    
+  messageId Int    
+  user      User @relation(fields: [userId], references: [id])
+  meesage   Message @relation(fields: [messageId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum TypeMessage {
+  IMAGE
+  TEXT
+}
