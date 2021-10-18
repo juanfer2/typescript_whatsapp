@@ -15,7 +15,8 @@ jobs:
                 command: npm install
       - run:
           name: Run Tests
-          command: npm test
+          command: npm test-coverage
+          
     # environment:
     #   SKIP_PREFLIGHT_CHECK: 'true'
     #   REACT_APP_ENVIROMENT: 'test'
