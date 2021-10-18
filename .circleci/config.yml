@@ -34,11 +34,17 @@ jobs:
 
       - run:
           name: Install node modules
-          command: npm install
+          command: yarn install
+      
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
 
       - run:
           name: Run Tests
-          command: npm test
+          command: yarn test
 
     environment:
       TZ: 'Etc/UTC'
