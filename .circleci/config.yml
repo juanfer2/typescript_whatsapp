@@ -11,9 +11,16 @@ jobs:
           POSTGRES_DB: whatsapp_test
           POSTGRES_PASSWORD: postgres
           TZ: 'Etc/UTC'
-      - image: cimg/node:16.11.1-browsers
+      - image: circleci/node:14
     steps:
       - checkout
+
+      - run:
+          name: Install Volta
+          command: |
+            curl https://get.volta.sh | bash
+            echo 'export VOLTA_HOME=$HOME/.volta' >> $BASH_ENV
+            echo 'export PATH=$HOME/.volta/bin:$PATH' >> $BASH_ENV
 
       - run:
           name: Wait for DB
