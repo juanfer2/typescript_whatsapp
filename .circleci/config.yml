@@ -15,6 +15,10 @@ jobs:
       - checkout
 
       - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
           command: |
             node --version
             yarn --version
@@ -28,9 +32,7 @@ jobs:
           name: Install node modules
           command: npm install
 
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      
 
       - run:
           name: Run Tests
