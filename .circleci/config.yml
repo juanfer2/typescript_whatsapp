@@ -12,16 +12,12 @@ jobs:
           TZ: 'Etc/UTC'
       - image: circleci/node:16.11.1-browsers
     steps:
-      - browser-tools/install-browser-tools:
-          chrome-version: 85.0.4183.87
-          firefox-version: 80.0.1
+      - browser-tools/install-chrome
+      - checkout
+
       - run:
           command: |
             google-chrome --version
-            firefox --version
-            geckodriver --version
-            chromedriver --version
-            java -jar /usr/local/bin/selenium.jar --version
             node --version
             yarn --version
           name: Check install
