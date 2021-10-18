@@ -5,14 +5,13 @@ jobs:
   build:
     docker:
       - image: node:14.17.2
+      - image: circleci/redis
       - image: circleci/postgres:11.0
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: whatsapp_test
           POSTGRES_PASSWORD: postgres
           TZ: 'Etc/UTC'
-      - image: circleci/node:14
-      - image: redis:late
 
     working_directory: ~/repo
 
