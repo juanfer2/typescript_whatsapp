@@ -10,10 +10,10 @@ jobs:
           POSTGRES_DB: whatsapp_test
           POSTGRES_PASSWORD: postgres
           TZ: 'Etc/UTC'
-      - image: cimg/node:16.11.1-browsers
+      - image: circleci/node:16.11.1-browsers
     steps:
       - browser-tools/install-browser-tools:
-          chrome-version: 85.0.4183.102
+          chrome-version: 85.0.4183.87
           firefox-version: 80.0.1
       - run:
           command: |
