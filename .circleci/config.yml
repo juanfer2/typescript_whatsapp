@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  browser-tools: circleci/browser-tools@1.1
+  browser-tools: circleci/browser-tools@1.1.0
 jobs:
   build:
     docker:
@@ -10,10 +10,14 @@ jobs:
           POSTGRES_DB: whatsapp_test
           POSTGRES_PASSWORD: postgres
           TZ: 'Etc/UTC'
-      - image: cimg/node:16.11.1
+      - image: cimg/16.11.1-browsers
     steps:
+      - browser-tools/install-browser-tools
       - checkout
-      - run: node --version
+      - run: |
+          node --version
+          yarn --version
+          google-chrome --version
 
       - run:
           name: Install node modules
