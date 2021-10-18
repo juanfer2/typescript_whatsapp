@@ -48,6 +48,6 @@ jobs:
 
     environment:
       TZ: 'Etc/UTC'
-      DATABASE_URL: "postgresql://postgres:root@localhost:root/whatsapp-test?schema=public"
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/whatsapp-test?schema=public"
     parallelism: 3
     
