@@ -3,6 +3,7 @@ version: 2.1
 #   browser-tools: circleci/browser-tools@1.2.3
 jobs:
   build:
+    working_directory: /whatsapp_api
     docker:
       - image: circleci/postgres:11.0
         environment:
