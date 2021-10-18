@@ -10,11 +10,10 @@ jobs:
           POSTGRES_DB: whatsapp_test
           POSTGRES_PASSWORD: postgres
           TZ: 'Etc/UTC'
-    executor:
-      name: node/default
-      tag: '12.6'
+      - image: cimg/node:16.11.1
     steps:
       - checkout
+      - run: node --version
       - node/with-cache:
           steps:
             - run:
@@ -23,9 +22,9 @@ jobs:
       - run:
           name: Run Tests
           command: npm test
-          
+
     environment:
-        TZ: 'Etc/UTC'
-        DATABASE_URL: "postgresql://postgres:root@localhost:root/whatsapp?schema=public"
+      TZ: 'Etc/UTC'
+      DATABASE_URL: "postgresql://postgres:root@localhost:root/whatsapp-test?schema=public"
     parallelism: 3
     
