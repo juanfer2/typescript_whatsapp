@@ -1,4 +1,4 @@
-import { user } from '../../../prisma';
+import { user } from '../../../clients/prisma_client';
 
 class UpdateStatusService {
   public status: boolean;

@@ -1,6 +1,6 @@
 import { Prisma, User } from '@prisma/client';
 import { isEmpty } from '../../../utils/validation_util';
-import prisma, { user } from '../../../prisma';
+import prisma, { user } from '../../../clients/prisma_client';
 
 interface Where {
   conditions?: object,

@@ -1,4 +1,4 @@
-import { room } from '../../../prisma';
+import { room } from '../../../clients/prisma_client';
 
 class Room {
   public name: string;
