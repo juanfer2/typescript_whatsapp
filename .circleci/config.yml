@@ -12,8 +12,6 @@ jobs:
           TZ: 'Etc/UTC'
       - image: cimg/node:16.11.1-browsers
     steps:
-      - browser-tools/install-browser-tools:
-          chrome-version: 85.0.4183.102
       - checkout
 
       - run:
