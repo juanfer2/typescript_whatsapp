@@ -10,8 +10,7 @@ jobs:
           POSTGRES_DB: whatsapp_test
           POSTGRES_PASSWORD: postgres
           TZ: 'Etc/UTC'
-      - image: node:10.5.0
-      - image: circleci/node:16.11.1-browsers
+      - image: cimg/node:16.11.1-browsers
     steps:
       - checkout
 
