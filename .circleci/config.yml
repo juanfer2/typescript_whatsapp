@@ -56,4 +56,3 @@ jobs:
       DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/whatsapp-test?schema=public"
       PRIVATE_KEY: "Uvyno8HNbhvOp8qAHxbH0G8zZe4J26N6PHs6hZ1h"
     parallelism: 3
-    
