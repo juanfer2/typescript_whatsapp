@@ -11,8 +11,8 @@ services:
       - POSTGRES_DB=root
     ports: 
       - 5432:5432
-    volumes:
-      - "./scripts/database/init.sql:/init.sql/"
+    #volumes:
+    #  - "./scripts/database/init.sql:/init.sql/"
 
   project:
     container_name: whatsapp-api
