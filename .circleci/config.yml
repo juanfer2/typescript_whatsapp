@@ -6,15 +6,6 @@ jobs:
     executor:
       name: node/default
       tag: '12.6'
-    docker:
-      - image: circleci/postgres:11.0
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: whatsapp_test
-          POSTGRES_PASSWORD: postgres
-          TZ: 'Etc/UTC'
-    environment:
-        TZ: 'Etc/UTC'
     steps:
       - checkout
       - node/with-cache:
