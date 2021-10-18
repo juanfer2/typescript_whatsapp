@@ -42,8 +42,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-        name: Run Migrations
-        command: npx prisma db push
+          name: Run Migrations
+          command: npx prisma db push
 
       - run:
           name: Run Tests
