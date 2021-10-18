@@ -9,7 +9,7 @@ jobs:
       - image: circleci/postgres:11.0
         environment:
           POSTGRES_USER: postgres
-          POSTGRES_DB: whatsapp_test
+          POSTGRES_DB: whatsapp-test
           POSTGRES_PASSWORD: postgres
           TZ: 'Etc/UTC'
 
