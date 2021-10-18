@@ -23,7 +23,7 @@ jobs:
 
       - run:
           name: Run Docker Compose
-          command: docker-compose up -d
+          command: docker-compose up -d build
 
       - run:
           name: Run Tests
