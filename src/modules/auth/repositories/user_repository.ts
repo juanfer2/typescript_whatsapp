@@ -1,6 +1,6 @@
 import { Prisma, User } from '@prisma/client';
 import { isEmpty } from '../../../utils/validation_util';
-import { user } from '../../../prisma';
+import prisma, { user } from '../../../prisma';
 
 interface Where {
   conditions?: object,
@@ -13,11 +13,11 @@ class UserRepository {
   constructor() {}
 
   async create(inputUser: any): Promise<User | null> {
-    return await user.create({data: {...inputUser}})
+    return await prisma.user.create({data: {...inputUser}})
   }
 
   async all(): Promise<User[]>{
-    return await user.findMany()
+    return await prisma.user.findMany()
   }
 
   async update({condition, data}: any): Promise<User | null>{
