@@ -28,18 +28,10 @@ jobs:
             mv /tmp/docker/* /usr/bin
 
       - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
-      - run:
+          name: Check install
           command: |
             node --version
             yarn --version
-          name: Check install
-      - checkout
-      #- run: |
-      #    node --version
-      #    yarn --version
 
       - run:
           name: Install node modules
