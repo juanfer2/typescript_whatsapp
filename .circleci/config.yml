@@ -3,8 +3,8 @@ version: 2.1
 #   browser-tools: circleci/browser-tools@1.2.3
 jobs:
   build:
-    working_directory: /whatsapp_api
     docker:
+      - image: node:14.17.2
       - image: circleci/postgres:11.0
         environment:
           POSTGRES_USER: postgres
@@ -12,15 +12,21 @@ jobs:
           POSTGRES_PASSWORD: postgres
           TZ: 'Etc/UTC'
       - image: circleci/node:14
+      - image: redis:late
+
+    working_directory: ~/repo
+
     steps:
       - checkout
 
       - run:
-          name: Install Volta
+          name: Install Docker client
           command: |
-            curl https://get.volta.sh | bash
-            echo 'export VOLTA_HOME=$HOME/.volta' >> $BASH_ENV
-            echo 'export PATH=$HOME/.volta/bin:$PATH' >> $BASH_ENV
+            set -x
+            VER="18.06.3-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
 
       - run:
           name: Wait for DB
