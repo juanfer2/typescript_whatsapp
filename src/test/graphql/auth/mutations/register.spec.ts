@@ -35,29 +35,29 @@ describe("AUTH", () => {
   test("should validate if username, name and password is empty", async () => {
     const { mutate }: any = await serverClient()
     const result = await mutate(REGISTER, { variables: params });
-    console.log(result)
     const response: any = result['errors'][0]['message']
-    console.log(response)
-    expect(response).
-      toEqual('ValidatorError: El nombre no puede estar vacío, El username no puede estar vacío, El password no puede estar vacío')
-  });
 
-  test("should validate if name and password is empty", async () => {
-    params.username = 'pepe calaca'
-    const { mutate }: any = await serverClient()
-    const result = await mutate(REGISTER, { variables: params });
-    console.log(result)
-    const response: any = result['errors'][0]['message']
-    expect('ValidatorError: El nombre no puede estar vacío, El username no puede estar vacío, El password no puede estar vacío').toEqual('ValidatorError: El nombre no puede estar vacío, El username no puede estar vacío, El password no puede estar vacío')
+    expect(response).
+      toEqual('ValidatorError: El nombre no puede estar vacío, '+
+        'El username no puede estar vacío, El password no puede estar vacío')
   });
 
   test("should validate if password is empty", async () => {
     params.name = 'pepe calaca'
     const { mutate }: any = await serverClient()
     const result = await mutate(REGISTER, { variables: params });
-    console.log(result)
     const response: any = result['errors'][0]['message']
-    expect('ValidatorError: El nombre no puede estar vacío, El username no puede estar vacío, El password no puede estar vacío').toEqual('ValidatorError: El nombre no puede estar vacío, El username no puede estar vacío, El password no puede estar vacío')
+    expect(response).
+      toEqual('ValidatorError: El username no puede estar vacío, '+
+      'El password no puede estar vacío')
+  });
+
+  test("should validate if name and password is empty", async () => {
+    params.username = 'pepe calaca'
+    const { mutate }: any = await serverClient()
+    const result = await mutate(REGISTER, { variables: params });
+    const response: any = result['errors'][0]['message']
+    expect(response).toEqual('ValidatorError: El password no puede estar vacío')
   });
 
   test("should create user", async () => {
