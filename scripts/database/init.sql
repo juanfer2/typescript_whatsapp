@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS whatsapp;
+-- CREATE DATABASE IF NOT EXISTS whatsapp-test;
+-- USE dev;

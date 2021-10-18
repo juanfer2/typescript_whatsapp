@@ -8,46 +8,53 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  username String   @unique
-  name     String?
-  password String?
-  messages Message[]
-  UserRooms UserRoom[]
+  @@map("users")
+  id               Int               @id @default(autoincrement())
+  username         String            @unique
+  name             String?
+  password         String?
+  online           Boolean?          @default(false)
+  messages         Message[]
+  UserRooms        UserRoom[]
   messageUserViews MessageUserView[]
+  //list             ListUser[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Room {
-  id       Int     @id @default(autoincrement())
-  name     String?
+  @@map("rooms")
+  id        Int        @id @default(autoincrement())
+  name      String?
   UserRooms UserRoom[]
-  messages Message[]
+  messages  Message[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
 model UserRoom {
-  id        Int     @id @default(autoincrement())
-  user      User    @relation(fields: [userId], references: [id])
-  room      Room    @relation(fields: [roomId], references: [id])
-  userId    Int    
-  roomId    Int    
-  
+  @@map("user_rooms")
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  room   Room @relation(fields: [roomId], references: [id])
+  userId Int
+  roomId Int
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Message {
-  id        Int         @id @default(autoincrement())
-  userId    Int    
-  roomId    Int    
-  type      TypeMessage @default(TEXT)
-  sender    User        @relation(fields: [userId], references: [id])
-  room      Room        @relation(fields: [roomId], references: [id])
+  @@map("messages")
+  id               Int               @id @default(autoincrement())
+  userId           Int
+  toId             Int
+  roomId           Int
+  type             TypeMessage       @default(TEXT)
+  sender           User              @relation(fields: [userId], references: [id])
+  room             Room              @relation(fields: [roomId], references: [id])
   messageUserViews MessageUserView[]
 
   createdAt DateTime @default(now())
@@ -55,17 +62,31 @@ model Message {
 }
 
 model MessageUserView {
-  id        Int  @id @default(autoincrement())
-  userId    Int    
-  messageId Int    
-  user      User @relation(fields: [userId], references: [id])
+  @@map("message_user_views")
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  messageId Int
+  user      User    @relation(fields: [userId], references: [id])
   meesage   Message @relation(fields: [messageId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
+// model ListUser {
+//   @@map("list_users")
+//   id        Int        @id @default(autoincrement())
+//   ownerId    Int
+//   userId    Int
+//   accountId    Int
+//   owner      User    @relation(fields: [ownerId], references: [id])
+// 
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @default(now()) @updatedAt
+// }
+
 enum TypeMessage {
   IMAGE
   TEXT
 }
+

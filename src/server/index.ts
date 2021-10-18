@@ -10,6 +10,7 @@ import { ApolloServer } from 'apollo-server-express'
 import compression from 'compression';
 import cors from 'cors';
 import schema from '../graphql/schemas_map'
+import { context } from "../graphql/context_config";
 
 export default class Server {
   public port: number;
@@ -25,42 +26,37 @@ export default class Server {
   start(callback: () => void) {
     this.connect()
       .then(async () => {
-        const allowedOrigins = ['*'];
-
-        const options: cors.CorsOptions = {
-          origin: allowedOrigins
-        };
-        app.use(cors(options));
-
         // application logger setup
-        app.use(morgan(LOG_FORMAT, { stream }));
+        //app.use(morgan(LOG_FORMAT, { stream }));
         // Graphql
         app.use(compression());
         const serverApollo = new ApolloServer({
           schema,
+          context,
+          
         })
 
         // without this, apollo will throw an error.
         await serverApollo.start();
         
-        serverApollo.applyMiddleware({ app, path: '/graphql' })
+        // CORS configuration
+        const corsOptions: cors.CorsOptions = {
+          credentials: true,
+          origin: "*"
+        };
+
+        serverApollo.applyMiddleware({ 
+          app, 
+          cors: corsOptions,
+          path: '/graphql',
+        })
+        
+        app.use(cors());
+        
         const serverConnection = http.createServer(app);
         //startConnectionSocket(serverConnection);
-
         
         app.get('/', async (req, res) => {
-          // logger.info('USERS')
-          // logger.info('User')
-          // const rs = Repository('user')
-          // console.log(await rs.all())
-          // logger.info('Create User')
-          // console.log(await rs.create({
-          //   username: 'Juanfer123asdf',
-          //   name: 'Juanfer',
-          //   password: 'asdqwe123'
-          // }))
-          // const r = new UserRepository
-          // console.log(await r.all())
           res.send({status: "ok"})
         })
 

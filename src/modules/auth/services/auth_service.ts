@@ -1,25 +1,33 @@
+import { Service } from "typedi";
 import { User } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import logger from "../../../utils/logger/logger_util";
 import UserRepository from "../repositories/user_repository";
-import { encryptPassword } from "./password_service";
+import { encryptPassword, comparedPassword } from "./password_service";
+import { Prisma } from '@prisma/client'
+import UserValidator from "../validators/user_validator";
+import {validate} from 'class-validator';
 
-class AuthServices {
+@Service()
+class AuthService {
   private PRIVATE_KEY: string = process.env.PRIVATE_KEY || '';
   private expirationDate = 24 * 50 * 60;
+  private  userRepository: UserRepository = new UserRepository;
 
   constructor(
-    private  userRepository: UserRepository
   ){}
 
-  async register(userInput: any) {
+  async register(userInput: any): Promise<any>{
     try {
-      userInput.password = encryptPassword(userInput.password)
+      const validateUser = new UserValidator(userInput)
+      await validateUser.validError()
+      userInput.password = await encryptPassword(userInput.password)
       const user: any = await this.userRepository.create(userInput);
       user.token = this._generateWebToken(user.id)
-    } catch (error) {
-      logger.error(error)
-      return error
+
+      return user
+    } catch (error: any) {
+      throw error
     }
   }
 
@@ -32,43 +40,47 @@ class AuthServices {
 
     return null;
   }
-/*
+
   async login(inputData: any): Promise<any> {
     try {
-      const user = await this.authRepository.findOne({
-        email: inputData.email,
+      const user: any = await this.userRepository.findBy({
+        username: inputData.username,
       });
+
       if (user) {
         const currentPassword: string = user.password;
-        const userIsValid = await this.authRepository.comparedPassword(
+
+        const userIsValid = await comparedPassword(
           inputData.password,
           currentPassword
         );
-        logger.info("user", userIsValid);
+
         if (userIsValid) {
-          logger.info("Es válido");
-          user.token = await this.generateWebToken(user.id);
+          user.token = await this._generateWebToken(user.id);
         } else {
-          logger.info("No válido");
+          return false;
         }
-        return user;
       } else {
         return false;
       }
-      // return user
+
+      return user;
     } catch (error) {
       logger.error(error);
     }
   }
-*/
+
   private async _generateWebToken(id: string): Promise<any> {
     try {
       const token = await jwt.sign({ id }, this.PRIVATE_KEY, {
         expiresIn: this.expirationDate,
       });
+
       return token;
     } catch (error) {
-      // console.log(error);
+      logger.error(error);
     }
   }
 }
+
+export default AuthService;

@@ -1,0 +1,9 @@
+input UserInput {
+  username: String!
+  name: String!
+  password: String!
+}
+
+type Mutation {
+    register(userInput: UserInput): User
+}

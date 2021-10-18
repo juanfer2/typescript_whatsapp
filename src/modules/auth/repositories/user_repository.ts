@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { isEmpty } from '../../../utils/validation_util';
 import { user } from '../../../prisma';
 
@@ -13,7 +13,7 @@ class UserRepository {
   constructor() {}
 
   async create(inputUser: any): Promise<User | null> {
-    return await user.create({data: inputUser})
+    return await user.create({data: {...inputUser}})
   }
 
   async all(): Promise<User[]>{
