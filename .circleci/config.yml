@@ -3,6 +3,9 @@ orbs:
   node: circleci/node@1.1
 jobs:
   build:
+    executor:
+      name: node/default
+      tag: '12.6'
     docker:
       - image: circleci/postgres:11.0
         environment:
@@ -12,10 +15,6 @@ jobs:
           TZ: 'Etc/UTC'
     environment:
         TZ: 'Etc/UTC'
-
-    executor:
-      name: node/default
-      tag: '12.6'
     steps:
       - checkout
       - node/with-cache:
