@@ -1,5 +1,9 @@
+"https://github.com/yeahoffline/redis-mock"
 import Queue from 'bull';
 import opts from './config';
+
+import BullQueue from "bull";
+import Redis from "ioredis";
 
 interface Priority{
   priority?: number
@@ -62,5 +66,33 @@ class Job {
     });
   }
 }
+
+const redisConnection = process.env.REDIS_HOST
+    ? new Redis(process.env.REDIS_HOST)
+    : new Redis();
+
+redisConnection.on("error", error => {
+  console.log("ERROR initialising Redis connection", error.message);
+});
+
+// Setting up Redis connection.
+redisConnection.on("connect", async () => {
+  console.log(
+    `The connection to Redis was correctly stablished - ${redisConnection.options.host}:${redisConnection.options.port}`
+  );
+
+  console.log("\nSetting up the queue...");
+
+  try {
+    const imageConverterQueue = new BullQueue("imageConverter", {
+      redis: {
+        host: redisConnection.options.host,
+        port: redisConnection.options.port
+      }
+    });
+  } catch (error) {
+    console.log("ERROR setting up queue", error);
+  }
+});
 
 export default Job;
