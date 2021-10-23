@@ -8,8 +8,8 @@ import { UserInputError } from 'apollo-server-errors';
 export const AuthResolver: IResolvers = {
   Query: {
     async login(root, arg, context): Promise<User> {
-      logger.info('root', root)
-      console.log(root)
+      // logger.info('root', root)
+      // console.log(root)
       context.currentUser
       const loginInput: LoginInput = arg.loginInput;
       const authService = new AuthService();

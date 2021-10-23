@@ -44,7 +44,7 @@ io.use((socket, next) => {
 });
 io.on('connection', (socket) => {
   socket.on('room', room => {
-    console.log(room);
+    // console.log(room);
     socket.join(room);
   });
 });

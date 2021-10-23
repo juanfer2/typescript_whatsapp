@@ -22,21 +22,47 @@ export const REGISTER = gql`
 `
 
 describe("AUTH", () => {
-
-
   const params: User = {
     id: 96969,
-    username: 'calaca55',
-    name: 'pepe calaca',
-    password: 'asdqwe123',
+    username: '',
+    name: '',
+    password: '',
     online: false,
     createdAt: new Date,
     updatedAt: new Date
   }
-
   
-  test("should respond with OK", async () => {
-    const { query, mutate }: any = await serverClient()
+  test("should validate if username, name and password is empty", async () => {
+    const { mutate }: any = await serverClient()
+    const result = await mutate(REGISTER, { variables: params });
+    const response: any = result['errors'][0]['message']
+
+    expect(response).
+      toEqual('ValidatorError: El nombre no puede estar vacío, '+
+        'El username no puede estar vacío, El password no puede estar vacío')
+  });
+
+  test("should validate if password is empty", async () => {
+    params.name = 'pepe calaca'
+    const { mutate }: any = await serverClient()
+    const result = await mutate(REGISTER, { variables: params });
+    const response: any = result['errors'][0]['message']
+    expect(response).
+      toEqual('ValidatorError: El username no puede estar vacío, '+
+      'El password no puede estar vacío')
+  });
+
+  test("should validate if name and password is empty", async () => {
+    params.username = 'pepe calaca'
+    const { mutate }: any = await serverClient()
+    const result = await mutate(REGISTER, { variables: params });
+    const response: any = result['errors'][0]['message']
+    expect(response).toEqual('ValidatorError: El password no puede estar vacío')
+  });
+
+  test("should create user", async () => {
+    params.password = 'asdqwe123'
+    const { mutate }: any = await serverClient()
     const factory = await prismaMock.user.create.mockResolvedValue(params)
     const result = await mutate(REGISTER, { variables: params });
     const response: any = result['data']['register']
