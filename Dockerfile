@@ -11,6 +11,8 @@ RUN npm install
 # add app
 COPY . ./
 RUN npm run build
+RUN npm run migration-pull-print
+RUN npm run prisma-generate
 
 RUN ls -la
 

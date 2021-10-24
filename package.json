@@ -12,6 +12,7 @@
     "postinstall": "yarn build",
     "dev": "nodemon src/index.ts",
     "migration-pull-print": "npx prisma db pull --print",
+    "prisma-generate": "npx prisma generate",
     "test": "jest",
     "test-coverage": "jest --coverage",
     "test-watch": "jest --watch",
