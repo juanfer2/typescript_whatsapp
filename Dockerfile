@@ -10,9 +10,9 @@ RUN npm install
 
 # add app
 COPY . ./
+RUN npm run build
 
 RUN ls -la
 
 # start app
-CMD ["npm", "build"]
 CMD ["npm", "start"]
