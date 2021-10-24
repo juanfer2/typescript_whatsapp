@@ -10,7 +10,7 @@ RUN npm install
 
 # add app
 COPY . ./
-RUN npm run migration-pull-print
+# RUN npm run migration-pull-print
 RUN npm run prisma-generate
 RUN npm run build
 
