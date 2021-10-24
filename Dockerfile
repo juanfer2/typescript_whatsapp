@@ -14,6 +14,7 @@ COPY . ./
 RUN npm run prisma-generate
 RUN npm run build
 
+# Validate Files
 RUN ls -la
 
 # start app
