@@ -7,10 +7,11 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 
 RUN npm install
-RUN ls -la
 
 # add app
 COPY . ./
+
+RUN ls -la
 
 # start app
 CMD ["npm", "build"]
